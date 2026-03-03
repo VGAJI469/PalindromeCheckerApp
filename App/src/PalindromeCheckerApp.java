@@ -3,45 +3,40 @@
 MAIN CLASS - PalindromeCheckerApp
 ================================================================================================================
 
-Use Case 12: Strategy Pattern for Palindrome Algorithms (Advanced)
+Use Case 13: Performance Comparison
 
 Description:
-This class demonstrates dynamic selection of palindrome algorithms
-using the Strategy Design Pattern. Different palindrome validation
-strategies can be injected at runtime.
+This class demonstrates performance comparison of different palindrome
+checking approaches. Execution time for each algorithm is measured
+using System.nanoTime() and displayed for analysis.
 
 At this stage, the application:
 - Starts execution from the main method
 - Displays a welcome message
 - Shows application Version
 - Accepts String input from the user
-- Allows user to choose a palindrome strategy
-- Injects selected strategy at runtime
-- Executes palindrome validation using chosen algorithm
-- Prints whether the String is Palindrome or Not
+- Executes multiple palindrome algorithms
+- Captures execution time using System.nanoTime()
+- Displays individual execution times
+- Displays palindrome validation result
 
 Key Concepts:
-Interface – Defines a common contract for all palindrome strategies.
-Polymorphism – Enables dynamic method dispatch at runtime.
-Strategy Pattern – Encapsulates interchangeable algorithms.
-Dependency Injection – Injects selected strategy into context.
+System.nanoTime() – Provides high-resolution time measurement.
+Algorithm Comparison – Evaluates performance of different approaches.
+Time Complexity Awareness – Understands cost of operations.
 
-Data Structures Used: Stack / Deque (Varies per strategy)
+Data Structures Used: Stack / Deque / Recursion
 
 @author Vansh
-@version 12.0
+@version 13.0
 ================================================================================================================
 */
 
 import java.util.*;
 
-interface PalindromeStrategy {
-    boolean check(String input);
-}
+public class PalindromeCheckerApp {
 
-class StackStrategy implements PalindromeStrategy {
-
-    public boolean check(String input) {
+    public static boolean stackMethod(String input) {
         String normalized = input.replaceAll("\\s+", "").toLowerCase();
         Stack<Character> stack = new Stack<>();
 
@@ -54,14 +49,10 @@ class StackStrategy implements PalindromeStrategy {
                 return false;
             }
         }
-
         return true;
     }
-}
 
-class DequeStrategy implements PalindromeStrategy {
-
-    public boolean check(String input) {
+    public static boolean dequeMethod(String input) {
         String normalized = input.replaceAll("\\s+", "").toLowerCase();
         Deque<Character> deque = new ArrayDeque<>();
 
@@ -74,58 +65,52 @@ class DequeStrategy implements PalindromeStrategy {
                 return false;
             }
         }
-
         return true;
     }
-}
 
-class PalindromeService {
-
-    private PalindromeStrategy strategy;
-
-    public PalindromeService(PalindromeStrategy strategy) {
-        this.strategy = strategy;
+    public static boolean recursiveMethod(String str, int start, int end) {
+        if (start >= end) return true;
+        if (str.charAt(start) != str.charAt(end)) return false;
+        return recursiveMethod(str, start + 1, end - 1);
     }
-
-    public boolean execute(String input) {
-        return strategy.check(input);
-    }
-}
-
-public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Application Version: 12.0");
-        System.out.println("Use Case 12 - Strategy Pattern Palindrome Checker");
+        System.out.println("Application Version: 13.0");
+        System.out.println("Use Case 13 - Performance Comparison");
 
         System.out.print("Enter a string: ");
         String input = scanner.nextLine();
 
-        System.out.println("Choose Strategy:");
-        System.out.println("1. Stack Strategy");
-        System.out.println("2. Deque Strategy");
-        System.out.print("Enter choice (1 or 2): ");
-        int choice = scanner.nextInt();
+        String normalized = input.replaceAll("\\s+", "").toLowerCase();
 
-        PalindromeStrategy strategy;
+        long startTime, endTime;
 
-        if (choice == 1) {
-            strategy = new StackStrategy();
-        } else {
-            strategy = new DequeStrategy();
-        }
+        startTime = System.nanoTime();
+        boolean stackResult = stackMethod(input);
+        endTime = System.nanoTime();
+        long stackTime = endTime - startTime;
 
-        PalindromeService service = new PalindromeService(strategy);
-        boolean result = service.execute(input);
+        startTime = System.nanoTime();
+        boolean dequeResult = dequeMethod(input);
+        endTime = System.nanoTime();
+        long dequeTime = endTime - startTime;
 
-        if (result) {
-            System.out.println("Result: The given string is a Palindrome.");
-        } else {
-            System.out.println("Result: The given string is NOT a Palindrome.");
-        }
+        startTime = System.nanoTime();
+        boolean recursiveResult = recursiveMethod(normalized, 0, normalized.length() - 1);
+        endTime = System.nanoTime();
+        long recursiveTime = endTime - startTime;
+
+        System.out.println("\nStack Method Result: " + stackResult);
+        System.out.println("Stack Execution Time (ns): " + stackTime);
+
+        System.out.println("\nDeque Method Result: " + dequeResult);
+        System.out.println("Deque Execution Time (ns): " + dequeTime);
+
+        System.out.println("\nRecursive Method Result: " + recursiveResult);
+        System.out.println("Recursive Execution Time (ns): " + recursiveTime);
 
         scanner.close();
     }
