@@ -1,70 +1,69 @@
 /*
 ================================================================================================================
-MAIN CLASS - UseCase6QueueStackPalindromeApp
+MAIN CLASS - PalindromeCheckerApp
 ================================================================================================================
 
-Use Case 6: Demonstration of FIFO vs LIFO using Queue and Stack
+Use Case 7: Deque-Based Optimized Palindrome Checker
 
 Description:
-This class demonstrates the behavioral difference between
-Queue (FIFO – First In First Out) and
-Stack (LIFO – Last In First Out) using a Hardcoded String.
+This class demonstrates palindrome validation using a Deque
+(Double Ended Queue) to compare front and rear elements efficiently.
 
 At this stage, the application:
 - Starts execution from the main method
 - Displays a welcome message
 - Shows application Version
-- Stores a Hardcoded String
-- Enqueues characters into a Queue (FIFO)
-- Pushes characters into a Stack (LIFO)
-- Compares Dequeue (Queue) output with Pop (Stack) output
-- Validates Palindrome logic using structural behavior
+- Accepts String input from the user
+- Inserts characters into a Deque
+- Removes first and last elements
+- Compares both elements until the structure becomes empty
+- Validates Palindrome logic using bidirectional access
 - Prints whether the String is Palindrome or Not
 
 Key Concepts:
-Queue – A linear data structure that follows the First In First Out (FIFO) principle.
-Enqueue & Dequeue Operations – Used to insert and remove elements from the queue.
-Stack – A linear data structure that follows the Last In First Out (LIFO) principle.
-Push & Pop Operations – Used to insert and remove elements from the stack.
-Logical Comparison – Matching dequeue (queue) output with pop (stack) output to validate palindrome logic.
+Deque – A data structure that allows insertion and deletion from both ends.
+Front and Rear Access – Enables direct comparison of first and last characters.
+Optimized Data Handling – Eliminates the need for separate reversal data structures.
+Bidirectional Removal – Supports efficient palindrome validation.
 
-Data Structures Used: Queue, Stack
+Data Structures Used: Deque
 
 @author Vansh
-@version 6.0
+@version 7.0
 ================================================================================================================
 */
 
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Scanner;
 
-public class PalindromeCheckerApp{
+public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
-        System.out.println("Application Version: 6.0");
-        System.out.println("Use Case 6 - Queue vs Stack Palindrome Demonstration");
+        Scanner scanner = new Scanner(System.in);
 
-        String input = "madam";
+        System.out.println("Application Version: 7.0");
+        System.out.println("Use Case 7 - Deque Based Palindrome Demonstration");
+
+        System.out.print("Enter a string: ");
+        String input = scanner.nextLine();
+
         String processedInput = input.replaceAll("\\s+", "").toLowerCase();
 
-        Queue<Character> queue = new LinkedList<>();
-        Stack<Character> stack = new Stack<>();
+        Deque<Character> deque = new ArrayDeque<>();
 
         for (int i = 0; i < processedInput.length(); i++) {
-            char ch = processedInput.charAt(i);
-            queue.add(ch);
-            stack.push(ch);
+            deque.addLast(processedInput.charAt(i));
         }
 
         boolean isPalindrome = true;
 
-        while (!queue.isEmpty()) {
-            char fromQueue = queue.remove();
-            char fromStack = stack.pop();
+        while (deque.size() > 1) {
+            char front = deque.removeFirst();
+            char rear = deque.removeLast();
 
-            if (fromQueue != fromStack) {
+            if (front != rear) {
                 isPalindrome = false;
                 break;
             }
@@ -75,5 +74,7 @@ public class PalindromeCheckerApp{
         } else {
             System.out.println("Result: The given string is NOT a Palindrome.");
         }
+
+        scanner.close();
     }
 }
