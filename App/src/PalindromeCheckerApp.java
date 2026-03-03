@@ -1,69 +1,79 @@
 /*
 ================================================================================================================
-MAIN CLASS - UseCase5PalindromeApp
+MAIN CLASS - UseCase6QueueStackPalindromeApp
 ================================================================================================================
 
-Use Case 5: Palindrome Validation Using Stack (LIFO Principle)
+Use Case 6: Demonstration of FIFO vs LIFO using Queue and Stack
 
 Description:
-This class represents palindrome validation using
-a Hardcoded String Value and Stack Data Structure.
+This class demonstrates the behavioral difference between
+Queue (FIFO – First In First Out) and
+Stack (LIFO – Last In First Out) using a Hardcoded String.
 
 At this stage, the application:
 - Starts execution from the main method
 - Displays a welcome message
 - Shows application Version
 - Stores a Hardcoded String
-- Pushes each character of the String into a Stack
-- Pops characters from the Stack to reverse the String
-- Compares the Original String with the Reversed String
+- Enqueues characters into a Queue (FIFO)
+- Pushes characters into a Stack (LIFO)
+- Compares Dequeue (Queue) output with Pop (Stack) output
+- Validates Palindrome logic using structural behavior
 - Prints whether the String is Palindrome or Not
-- Displays both Original and Reversed Strings
-
-
-The goal is to find if a Hardcoded string is Palindrome or not
-using Stack (LIFO - Last In First Out).
 
 Key Concepts:
+Queue – A linear data structure that follows the First In First Out (FIFO) principle.
+Enqueue & Dequeue Operations – Used to insert and remove elements from the queue.
 Stack – A linear data structure that follows the Last In First Out (LIFO) principle.
-Push Operation – Used to insert characters into the stack.
-Pop Operation – Used to remove characters from the stack in reverse order.
-Reversal Logic – Stack naturally reverses the order of elements.
+Push & Pop Operations – Used to insert and remove elements from the stack.
+Logical Comparison – Matching dequeue (queue) output with pop (stack) output to validate palindrome logic.
 
-@author SAKET-2005
-@version 5.0
- */
+Data Structures Used: Queue, Stack
 
+@author Vansh
+@version 6.0
+================================================================================================================
+*/
+
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
-public class PalindromeCheckerApp
-{
-    public static void main(String args[])
-    {
-        System.out.println("Welcome to The Palindrome Checker");
+public class PalindromeCheckerApp{
 
-        String txt = "123321";
+    public static void main(String[] args) {
 
+        System.out.println("Application Version: 6.0");
+        System.out.println("Use Case 6 - Queue vs Stack Palindrome Demonstration");
+
+        String input = "madam";
+        String processedInput = input.replaceAll("\\s+", "").toLowerCase();
+
+        Queue<Character> queue = new LinkedList<>();
         Stack<Character> stack = new Stack<>();
 
-        for(int i = 0; i < txt.length(); i++)
-        {
-            stack.push(txt.charAt(i));
+        for (int i = 0; i < processedInput.length(); i++) {
+            char ch = processedInput.charAt(i);
+            queue.add(ch);
+            stack.push(ch);
         }
 
-        String reversed = "";
+        boolean isPalindrome = true;
 
-        while(!stack.isEmpty())
-        {
-            reversed = reversed + stack.pop();
+        while (!queue.isEmpty()) {
+            char fromQueue = queue.remove();
+            char fromStack = stack.pop();
+
+            if (fromQueue != fromStack) {
+                isPalindrome = false;
+                break;
+            }
         }
 
-        System.out.println("Original String: " + txt);
-        System.out.println("Reversed String: " + reversed);
-
-        if(txt.equals(reversed))
-            System.out.println("The String " + txt + " is a Palindrome");
-        else
-            System.out.println("The String " + txt + " is Not a Palindrome");
+        if (isPalindrome) {
+            System.out.println("Result: The given string is a Palindrome.");
+        } else {
+            System.out.println("Result: The given string is NOT a Palindrome.");
+        }
     }
 }
