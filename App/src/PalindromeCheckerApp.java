@@ -1,81 +1,69 @@
-//import java.util.Scanner;
-//
-//public class PalindromeCheckerApp {
-//    public static void main(String[] args) {
-//        System.out.println("Welcome to the Palidrome Checker App Management System");
-////        // Hardcoded string
-////        String word = "madam";
-////
-////        // Reverse the string
-//        String reversed = "";
-////
-////        for (int i = word.length() - 1; i >= 0; i--) {
-////            reversed = reversed + word.charAt(i);
-////        }
-////
-////        // Check if palindrome using if-else
-////        if (word.equals(reversed)) {
-////            System.out.println(word + " is a Palindrome.");
-////        } else {
-////            System.out.println(word + " is NOT a Palindrome.");
-////        }
-//        Scanner scanner = new Scanner(System.in);
-//
-//        System.out.print("Enter a string: ");
-//        String original = scanner.nextLine();
-//        String LowercasedString = original.toLowerCase();
-//
-//
-//        for (int i = LowercasedString.length() - 1; i >= 0; i--) {
-//            reversed = reversed + LowercasedString.charAt(i);
-//        }
-//        boolean isPalindrome = LowercasedString.equals(reversed);
-//        System.out.println(isPalindrome);
-//        scanner.close();
-//
-//
-//    }
-//
-//}
-import java.util.Scanner;
+/*
+================================================================================================================
+MAIN CLASS - UseCase5PalindromeApp
+================================================================================================================
 
-public class PalindromeCheckerApp {
+Use Case 5: Palindrome Validation Using Stack (LIFO Principle)
 
-    public static void main(String[] args) {
+Description:
+This class represents palindrome validation using
+a Hardcoded String Value and Stack Data Structure.
 
-        // Create Scanner object to take user input
-        Scanner scanner = new Scanner(System.in);
+At this stage, the application:
+- Starts execution from the main method
+- Displays a welcome message
+- Shows application Version
+- Stores a Hardcoded String
+- Pushes each character of the String into a Stack
+- Pops characters from the Stack to reverse the String
+- Compares the Original String with the Reversed String
+- Prints whether the String is Palindrome or Not
+- Displays both Original and Reversed Strings
 
-        System.out.print("Enter a word: ");
-        String word = scanner.nextLine();
-        String LowerCaseWord = word.toLowerCase();
 
-        // Convert string to character array
-        char[] characters = LowerCaseWord.toCharArray();
+The goal is to find if a Hardcoded string is Palindrome or not
+using Stack (LIFO - Last In First Out).
 
-        // Two-pointer approach
-        int start = 0;
-        int end = characters.length - 1;
+Key Concepts:
+Stack – A linear data structure that follows the Last In First Out (LIFO) principle.
+Push Operation – Used to insert characters into the stack.
+Pop Operation – Used to remove characters from the stack in reverse order.
+Reversal Logic – Stack naturally reverses the order of elements.
 
-        boolean isPalindrome = true;
+@author SAKET-2005
+@version 5.0
+ */
 
-        while (start < end) {
+import java.util.Stack;
 
-            if (characters[start] != characters[end]) {
-                isPalindrome = false;
-                break;
-            }
+public class PalindromeCheckerApp
+{
+    public static void main(String args[])
+    {
+        System.out.println("Welcome to The Palindrome Checker");
 
-            start++;
-            end--;
+        String txt = "123321";
+
+        Stack<Character> stack = new Stack<>();
+
+        for(int i = 0; i < txt.length(); i++)
+        {
+            stack.push(txt.charAt(i));
         }
 
-        if (isPalindrome) {
-            System.out.println(word + " is a Palindrome.");
-        } else {
-            System.out.println(word + " is NOT a Palindrome.");
+        String reversed = "";
+
+        while(!stack.isEmpty())
+        {
+            reversed = reversed + stack.pop();
         }
 
-        scanner.close();
+        System.out.println("Original String: " + txt);
+        System.out.println("Reversed String: " + reversed);
+
+        if(txt.equals(reversed))
+            System.out.println("The String " + txt + " is a Palindrome");
+        else
+            System.out.println("The String " + txt + " is Not a Palindrome");
     }
 }
