@@ -3,34 +3,32 @@
 MAIN CLASS - PalindromeCheckerApp
 ================================================================================================================
 
-Use Case 8: Linked List Based Palindrome Checker
+Use Case 9: Recursive Palindrome Checker
 
 Description:
-This class demonstrates palindrome validation using a Singly Linked List.
-The string is converted into a linked list, the second half is reversed,
-and both halves are compared to validate palindrome logic.
+This class demonstrates palindrome validation using recursion.
+The recursive method compares characters from the start and end
+positions and reduces the problem size at each step.
 
 At this stage, the application:
 - Starts execution from the main method
 - Displays a welcome message
 - Shows application Version
 - Accepts String input from the user
-- Converts the String into a Singly Linked List
-- Uses Fast and Slow pointer technique to find the middle
-- Reverses the second half of the list in-place
-- Compares both halves of the list
+- Calls a recursive method to compare start and end characters
+- Uses a base condition to terminate recursion
 - Prints whether the String is Palindrome or Not
 
 Key Concepts:
-Singly Linked List – A dynamic data structure where elements are connected using node references.
-Node Traversal – Sequential access to elements using next references.
-Fast and Slow Pointer Technique – Efficiently finds the middle of the linked list.
-In-Place Reversal – Reverses the second half without using extra memory.
+Recursion – A technique where a method calls itself to solve smaller subproblems.
+Base Condition – Prevents infinite recursion and terminates recursive calls.
+Call Stack – Memory structure used to manage method calls during recursion.
+Divide and Conquer – Problem size reduces in each recursive step.
 
-Data Structures Used: Singly Linked List
+Data Structures Used: Call Stack
 
 @author Vansh
-@version 8.0
+@version 9.0
 ================================================================================================================
 */
 
@@ -38,80 +36,34 @@ import java.util.Scanner;
 
 public class PalindromeCheckerApp {
 
-    static class Node {
-        char data;
-        Node next;
+    public static boolean isPalindrome(String str, int start, int end) {
 
-        Node(char data) {
-            this.data = data;
-            this.next = null;
+        if (start >= end) {
+            return true;
         }
+
+        if (str.charAt(start) != str.charAt(end)) {
+            return false;
+        }
+
+        return isPalindrome(str, start + 1, end - 1);
     }
 
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Application Version: 8.0");
-        System.out.println("Use Case 8 - Linked List Based Palindrome Demonstration");
+        System.out.println("Application Version: 9.0");
+        System.out.println("Use Case 9 - Recursive Palindrome Demonstration");
 
         System.out.print("Enter a string: ");
         String input = scanner.nextLine();
 
         String processedInput = input.replaceAll("\\s+", "").toLowerCase();
 
-        Node head = null;
-        Node tail = null;
+        boolean result = isPalindrome(processedInput, 0, processedInput.length() - 1);
 
-        for (int i = 0; i < processedInput.length(); i++) {
-            Node newNode = new Node(processedInput.charAt(i));
-            if (head == null) {
-                head = newNode;
-                tail = newNode;
-            } else {
-                tail.next = newNode;
-                tail = newNode;
-            }
-        }
-
-        if (head == null || head.next == null) {
-            System.out.println("Result: The given string is a Palindrome.");
-            return;
-        }
-
-        Node slow = head;
-        Node fast = head;
-
-        while (fast != null && fast.next != null) {
-            slow = slow.next;
-            fast = fast.next.next;
-        }
-
-        Node prev = null;
-        Node current = slow;
-
-        while (current != null) {
-            Node nextNode = current.next;
-            current.next = prev;
-            prev = current;
-            current = nextNode;
-        }
-
-        Node firstHalf = head;
-        Node secondHalf = prev;
-
-        boolean isPalindrome = true;
-
-        while (secondHalf != null) {
-            if (firstHalf.data != secondHalf.data) {
-                isPalindrome = false;
-                break;
-            }
-            firstHalf = firstHalf.next;
-            secondHalf = secondHalf.next;
-        }
-
-        if (isPalindrome) {
+        if (result) {
             System.out.println("Result: The given string is a Palindrome.");
         } else {
             System.out.println("Result: The given string is NOT a Palindrome.");
